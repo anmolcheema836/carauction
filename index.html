@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Auction Fees Calculator (UK) | Real Buyer Cost Estimates</title>
+    <meta name="description" content="Estimate UK car auction fees from the hammer price. Updated for 2025/2026 BCA fee structures. Calculate buyer fees, VAT, and total payable instantly.">
+    <link rel="canonical" href="https://carauctionfees.co.uk/">
+    
+    <!-- FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- JS LIBS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    
+    <!-- GA4 Tracking -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TT07MBD4SM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-TT07MBD4SM');
+    </script>
+</head>
+<body>
+
+    <nav class="navbar">
+    <div class="container nav-content">
+        <a href="./index.html" class="logo">Car Auction Fees</a>
+
+        <div class="nav-links">
+            <a href="./index.html" aria-current="page" style="color: var(--primary);">Calculator</a>
+            <a href="./auction-sites/index.html">Auction Sites</a>
+            <a href="./about.html">About</a>
+            <a href="./disclaimer.html">Disclaimer</a>
+        </div>
+
+        <button class="mobile-toggle" aria-label="Menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111827" stroke-width="2">
+                <path d="M3 12H21M3 6H21M3 18H21"/>
+            </svg>
+        </button>
+    </div>
+</nav>
+
+<div class="mobile-menu-overlay">
+    <a href="./index.html" class="mobile-link">Calculator</a>
+    <a href="./auction-sites/index.html" class="mobile-link">Auction Sites</a>
+    <a href="./about.html" class="mobile-link">About</a>
+    <a href="./disclaimer.html" class="mobile-link">Disclaimer</a>
+</div>
+
+
+    <main class="container">
+        <section class="hero" style="text-align: center; margin: 4rem 0 2rem;">
+            <h1>Car Auction Fees<br>Calculator (UK)</h1>
+            <p style="max-width: 500px; margin: 1.5rem auto 0;">
+                Enter a hammer price to estimate buyer fees and total payable.<br>
+                <span style="font-size: 0.9rem; opacity: 0.8;">Estimates only — always verify directly with the auction.</span>
+            </p>
+        </section>
+
+        <section id="calculator">
+            <div class="calc-card fade-up"> 
+                <div class="calc-header">
+                    <h2>Fee Estimator</h2>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">
+                        Standard Buyer (No Card) • BCA 2025 Structure
+                    </p>
+                </div>
+                <div class="calc-body">
+                    <div class="input-group">
+                        <label for="hammerPrice">Hammer Price</label>
+                        <div class="currency-input">
+                            <span>£</span>
+                            <input type="number" id="hammerPrice" placeholder="0.00" min="0" inputmode="numeric">
+                        </div>
+                        <div id="rangeWarning" class="warning-text" style="display:none;">
+                            Supports £11–£24,999; higher values must be confirmed directly.
+                        </div>
+                    </div>
+                    
+                    <div class="input-group toggle-wrapper">
+                        <label for="vatToggle" style="margin:0; font-weight:500;">
+                            VAT on Hammer Price?
+                            <span style="display:block; font-size: 0.75rem; color:var(--text-muted); font-weight:400;">
+                                For commercial/qualifying vehicles
+                            </span>
+                        </label>
+                        <label class="switch">
+                            <input type="checkbox" id="vatToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <button id="btnCalculate" class="btn btn-primary full-width" style="margin-top: 1rem;">
+                        Calculate Fees
+                    </button>
+
+                    <div class="receipt-divider"></div>
+                    
+                    <div class="results">
+                        <div class="line-item">
+                            <span>Hammer Price</span>
+                            <span class="tabular-nums" id="elHammer">£0.00</span>
+                        </div>
+                        <div class="line-item">
+                            <span>Buyer Fees (Net)</span>
+                            <span class="tabular-nums" id="elBuyerFee">£0.00</span>
+                        </div>
+                        <div class="line-item">
+                            <span>Fixed Costs (Net)</span>
+                            <span class="tabular-nums" id="elFixedFees">£0.00</span>
+                        </div>
+                        <div class="line-item">
+                            <span>VAT (on Fees + Hammer)</span>
+                            <span class="tabular-nums" id="elVat">£0.00</span>
+                        </div>
+                        <div class="line-item total">
+                            <span>Total Payable</span>
+                            <span class="tabular-nums" id="elTotal">£0.00</span>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.75rem; color: #9CA3AF; text-align: center; margin-top: 1.5rem;">
+                        *Includes V5 Handling (£21.67) + Assured Report (£61.00).
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Affiliate Disclosure -->
+        <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1.5rem; text-align: center; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Some links below may be affiliate links. If you buy through them, we may earn a commission at no extra cost to you.
+        </p>
+
+        <section class="grid-2 fade-up" style="margin-bottom: 6rem;">
+            <!-- Placeholder Card 1 -->
+            <div style="background: white; padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border);">
+                <h3>Vehicle History Check</h3>
+                <p style="margin: 1rem 0 2rem;">Essential before bidding. Check for write-offs, finance, and mileage discrepancies.</p>
+                <button class="btn btn-outline full-width" disabled>Check Vehicle (Coming Soon)</button>
+            </div>
+            <!-- Placeholder Card 2 -->
+            <div style="background: var(--primary); padding: 2rem; border-radius: var(--radius-lg); color: white;">
+                <h3 style="color: white;">Temporary Insurance</h3>
+                <p style="margin: 1rem 0 2rem; color: rgba(255,255,255,0.7);">Drive your auction win home legally. Cover from 1 hour to 28 days.</p>
+                <button class="btn" style="background: white; color: var(--primary); width: 100%;" disabled>Get Quote (Coming Soon)</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div style="margin-bottom: 1.5rem;">
+                <a href="about.html" class="footer-link">About</a>
+                <a href="privacy.html" class="footer-link">Privacy</a>
+                <a href="disclaimer.html" class="footer-link">Disclaimer</a>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                Independent site. Not affiliated with any auction house (BCA, Copart, etc). Estimates only.
+            </p>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                &copy; 2026 Car Auction Fees UK.
+            </p>
+        </div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
