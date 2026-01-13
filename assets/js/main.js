@@ -175,10 +175,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 3. PAGE ANIMATIONS & OPTIMIZATION
     if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
         
-        // Fix: Explicitly register the plugin to prevent "Invalid property" errors
         gsap.registerPlugin(ScrollTrigger);
 
-        // A. Homepage Hero Animation (Only runs if .hero exists)
+        // A. Homepage Hero Animation
         const heroTitle = document.querySelector(".hero h1");
         if (heroTitle) {
             gsap.from(heroTitle, { 
@@ -188,7 +187,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 ease: "power3.out" 
             });
             
-            // Animate hero paragraph if it exists
             gsap.from(".hero p", { 
                 y: 30, 
                 opacity: 0, 
@@ -198,16 +196,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // B. Generic "Fade Up" Animation (Runs on ANY page with .fade-up elements)
-        // This stops errors on pages that have no fade-up elements
+        // B. Generic "Fade Up" Animation
         const fadeElements = gsap.utils.toArray('.fade-up');
-        
         if (fadeElements.length > 0) {
             fadeElements.forEach(el => {
                 gsap.from(el, {
                     scrollTrigger: { 
                         trigger: el, 
-                        start: "top 90%" // Triggers when top of element hits 90% of viewport height
+                        start: "top 90%"
                     },
                     y: 30, 
                     opacity: 0, 
@@ -217,4 +213,20 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     }
+
+    // 4. AFFILIATE LINK TRACKING (Added per brief)
+    const affiliateLinks = document.querySelectorAll('.affiliate-track');
+    affiliateLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Get partner name from data attribute
+            const partner = link.getAttribute('data-partner') || 'unknown';
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'affiliate_click', {
+                    'category': 'affiliate',
+                    'label': partner
+                });
+            }
+        });
+    });
 });
